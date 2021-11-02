@@ -18,10 +18,8 @@ namespace PK_PPU
         const byte STARTBYTE = 170;
         List<string> list = new List<string>();
         byte[] bufTx = new byte[14];
-        byte[] bufRx = new byte[14];        
-        int countRx = 0;
+        byte[] bufRx = new byte[14];      
         int count_bytes = 0;
-        byte bt = 0;
         public static bool endRX = false;
         string[] ports;
         public Form1()
@@ -32,7 +30,7 @@ namespace PK_PPU
         private void Form1_Load(object sender, EventArgs e)
         {
             ports = SerialPort.GetPortNames();
-           
+
         }
 
         public string send(byte x)
@@ -49,7 +47,7 @@ namespace PK_PPU
                     bufTx[13] = calcSumXOR(bufTx, 13);
                     serialPort1.Write(bufTx, 0, 14);
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(150);
                     if (endRX)
                     {
                         endRX = false;
@@ -128,26 +126,22 @@ namespace PK_PPU
             return sum;
         }
 
-        private void buttonSend_Click(object sender, EventArgs e)
+        private void buttonInit_Click(object sender, EventArgs e)
         {
-            //label1.Text = Convert.ToString("ffff" + bt);          
-            
-        }
+            comboBoxCollimators.Items.Clear();
 
-        private void buttonPower_Click(object sender, EventArgs e)
-        {
             string[] array;
-            for(byte i = 0; i < 8; i++)
+            for (byte i = 0; i < 8; i++)
             {
                 string temp = send(i);
                 //if(!temp.Equals("none"))
                 //{
-                    //list.Add(temp);
-               // }
+                //list.Add(temp);
+                // }
             }
 
             array = new string[list.Count];
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 Console.WriteLine(list[i]);
                 array[i] = list[i];
@@ -155,6 +149,16 @@ namespace PK_PPU
 
             comboBoxCollimators.Items.AddRange(array);
             list.Clear();
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        { //label1.Text = Convert.ToString("ffff" + bt);       
+
         }
     }
 }
