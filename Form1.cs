@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Threading;
@@ -15,13 +14,17 @@ namespace PK_PPU
     
     public partial class Form1 : Form
     {
-        const byte STARTBYTE = 170;
+        public const byte STARTBYTE = 170;
         List<string> list = new List<string>();
-        byte[] bufTx = new byte[14];
-        byte[] bufRx = new byte[14];      
+        List<Collimator> collimators = new List<Collimator>();
+        public byte[] bufTx = new byte[14];
+        public byte[] bufRx = new byte[14];      
         int count_bytes = 0;
         public static bool endRX = false;
         string[] ports;
+        Collimator selectedCollimator;
+        
+
         public Form1()
         {
             InitializeComponent();
@@ -33,9 +36,21 @@ namespace PK_PPU
 
         }
 
-        public string send(byte x)
+        public void sendData(string serialPort, byte[] pack)
         {
-            for(int i = 0; i < ports.Length; i++)
+            serialPort1.PortName = serialPort;
+            serialPort1.Open();
+            if (serialPort1.IsOpen)
+            {
+                serialPort1.Write(pack, 0, 14);
+                Thread.Sleep(150);
+                serialPort1.Close();
+            }
+        }
+        public string initCollimators(byte x)
+        {
+            
+            for (int i = 0; i < ports.Length; i++)
             {
                 serialPort1.PortName = ports[i];
                 serialPort1.Open();
@@ -51,11 +66,11 @@ namespace PK_PPU
                     if (endRX)
                     {
                         endRX = false;
-                        Console.WriteLine("Collimator is found: " + ports[i]);
+                        //Console.WriteLine("Collimator is found: " + ports[i]);
                         serialPort1.Close();
                         return "collimator " + x + " " + ports[i];
                     }
-                    else Console.WriteLine("COM is invalid: " + ports[i]);
+                   // else Console.WriteLine("COM is invalid: " + ports[i]);
                     serialPort1.Close();
 
                 }
@@ -84,10 +99,25 @@ namespace PK_PPU
                             {
                                 endRX = true;
                                 string result = "";
-                                if (bufRx[1] % 2 == 0) result = "ТВ" + bufRx[1] / 2;
-                                else result = result = "ТПВ" + bufRx[1] / 2;
+                                if (bufRx[1] % 2 == 0)
+                                {
+                                    result = "ТВ" + bufRx[1] / 2;
+                                    TV_Collimator tvCollimator = new TV_Collimator(result, serialPort1.PortName, bufRx[1]);
+                                    Console.WriteLine(tvCollimator);
+                                    collimators.Add(tvCollimator);
+                                }
+                                else
+                                {
+                                    result = result = "ТПВ" + bufRx[1] / 2;
+                                    TPV_Collimator tpvCollimator = new TPV_Collimator(result, serialPort1.PortName, bufRx[1]);
+                                    Console.WriteLine(tpvCollimator);
+                                    collimators.Add(tpvCollimator);
+                                }
+
+                                
                                 list.Add(result);
-                                Console.WriteLine("END RX: " + result); 
+                                //Console.WriteLine("END RX: " + result);                               
+                                //Collimator col = new Collimator(list[list.Count - 1], serialPort1.PortName, (byte) (bufRx[1] / 2));                                
                             }
                             break;
                     }
@@ -115,10 +145,19 @@ namespace PK_PPU
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            string selectedState = comboBoxCollimators.SelectedItem.ToString();
+            for(int i = 0; i < collimators.Count; i++)
+            {
+                if(selectedState.Equals(collimators[i].getName()))
+                {
+                    selectedCollimator = collimators[i];
+                    Console.WriteLine(collimators[i]);
+                    break;
+                }
+            }
         }
 
-        private byte calcSumXOR(byte[] bytes, byte length)
+        public static byte calcSumXOR(byte[] bytes, byte length)
         {
             byte sum = 0;
             for (int i = 0; i < length; i++)
@@ -129,26 +168,28 @@ namespace PK_PPU
         private void buttonInit_Click(object sender, EventArgs e)
         {
             comboBoxCollimators.Items.Clear();
+            collimators.Clear();
 
             string[] array;
             for (byte i = 0; i < 8; i++)
             {
-                string temp = send(i);
+                string temp = initCollimators(i);
                 //if(!temp.Equals("none"))
                 //{
                 //list.Add(temp);
                 // }
             }
 
-            array = new string[list.Count];
+            array = new string[collimators.Count];
             for (int i = 0; i < array.Length; i++)
             {
-                Console.WriteLine(list[i]);
-                array[i] = list[i];
+                Console.WriteLine(collimators[i].getName());
+                array[i] = collimators[i].getName();
+                
             }
 
             comboBoxCollimators.Items.AddRange(array);
-            list.Clear();
+            
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -160,5 +201,212 @@ namespace PK_PPU
         { //label1.Text = Convert.ToString("ffff" + bt);       
 
         }
+    }
+
+     abstract class Collimator
+     {
+        private byte type;
+        private string name;
+        private string port;
+        public Collimator(string name, string port, byte type)
+        {
+            this.name = name;
+            this.port = port;
+            this.type = type;
+        }       
+            
+        public abstract byte[] createPacketToSend();
+
+        public abstract byte getFlags();
+
+        public byte getType()
+        {
+            return type;
+        }
+
+        public string getName()
+        {
+            return name;
+        }
+
+        public string getPort()
+        {
+            return port;
+        }
+
+        public override string ToString()
+        {
+            return "COLLIMATOR name: " + name + " type: " + type +  " port: " + port;
+        }
+
+    }
+
+    class TPV_Collimator : Collimator
+    {
+        public Grid grid1;
+        public TPV_Collimator (string name, string port, byte type) 
+            : base(name, port, type)
+        {
+            grid1 = new Grid();
+        }
+
+        public override byte[] createPacketToSend()
+        {
+            byte[] packToSend = new byte[14];
+
+            packToSend[0] = Form1.STARTBYTE;
+            packToSend[1] = getType();
+            packToSend[2] = getFlags();
+            for (byte i = 3; i < 9; i++)
+                packToSend[i] = 0;
+            packToSend[9] = grid1.getBright();
+            packToSend[10] = 0;
+            int speedByte = (grid1.getSpeed() & 0x0F);
+            packToSend[11] = (byte)speedByte;
+            packToSend[12] = 0;
+            packToSend[13] = Form1.calcSumXOR(packToSend, 13);
+
+            return packToSend;
+        }
+
+        public override byte getFlags()
+        {
+            int bt = 0;
+
+            if (grid1.getStart()) bt |= 0x01;
+            else bt &= ~(1 << 0);
+
+            if (grid1.getDirect()) bt |= 0x02;
+            else bt &= ~(1 << 1);
+
+            if (grid1.getHeatOn()) bt |= 0x40;
+            else bt &= ~(1 << 6);
+
+            return (byte)bt;
+        }
+    }
+
+    class TV_Collimator : Collimator
+    {
+        public Grid grid1;
+        public Grid grid2;
+        public TV_Collimator(string name, string port, byte type)
+            : base(name, port, type)
+        {
+            grid1 = new Grid();
+            grid2 = new Grid();
+        }
+
+        public override byte[] createPacketToSend()
+        {
+            byte[] packToSend = new byte[14];
+
+            packToSend[0] = Form1.STARTBYTE;
+            packToSend[1] = getType();
+            packToSend[2] = getFlags();
+            for (byte i = 3; i < 9; i++)
+                packToSend[i] = 0;
+            packToSend[9] = grid1.getBright();
+            packToSend[10] = grid2.getBright();
+            int speedByte = (grid1.getSpeed() & 0x0F) | (grid2.getSpeed() & 0xF0);
+            packToSend[11] = (byte)speedByte;
+            packToSend[12] = 0;
+            packToSend[13] = Form1.calcSumXOR(packToSend, 13);
+
+            return packToSend;
+        }
+
+        public override byte getFlags()
+        {
+            int bt = 0;
+
+            if (grid1.getStart()) bt |= 0x01;
+            else bt &= ~(1 << 0);
+
+            if (grid1.getDirect()) bt |= 0x02;
+            else bt &= ~(1 << 1);
+
+            if (grid1.getHeatOn()) bt |= 0x40;
+            else bt &= ~(1 << 6);
+
+            if (grid2.getStart()) bt |= 0x04;
+            else bt &= ~(1 << 2);
+
+            if (grid2.getDirect()) bt |= 0x08;
+            else bt &= ~(1 << 3);
+
+            if (grid1.getHeatOn()) bt |= 0x80;
+            else bt &= ~(1 << 7);
+
+            return (byte)bt;
+        }
+    }
+
+    public class Grid
+    {
+        private sbyte speed;
+        private byte bright;
+
+        private bool direct;
+        private bool start;
+
+        private bool heatOn;
+        public Grid()
+        {
+            speed = 0;
+            bright = 0;
+            direct = false;
+            start = false;
+            heatOn = false;
+        }
+
+        public void setHeatOn(bool heatOn)
+        {
+            this.heatOn = heatOn;
+        }
+
+        public bool getHeatOn()
+        {
+            return heatOn;
+        }
+        public void setDirect(bool direct)
+        {
+            this.direct = direct;
+        }
+
+        public bool getDirect()
+        {
+            return direct;
+        }
+
+        public void setStart(bool start)
+        {
+            this.start = start;
+        }
+
+        public bool getStart()
+        {
+            return start;
+        }
+        public void setSpeed(sbyte speed)
+        {
+            this.speed += speed;
+        }
+
+        public sbyte getSpeed()
+        {
+            return speed;
+        }
+
+        public void setBright(byte bright)
+        {
+            this.bright += bright;
+        }
+
+        public byte getBright()
+        {
+            return bright;
+        }
+
     }
 }
