@@ -39,20 +39,20 @@ namespace PK_PPU
             this.buttonInit = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelSpeed2 = new System.Windows.Forms.Label();
             this.buttonPlusSpeed2 = new System.Windows.Forms.Button();
             this.buttonMinusSpeed2 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelSpeed1 = new System.Windows.Forms.Label();
             this.buttonPlusSpeed1 = new System.Windows.Forms.Button();
             this.buttonMinusSpeed1 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelBr2 = new System.Windows.Forms.Label();
             this.buttonPlusBright2 = new System.Windows.Forms.Button();
             this.buttonMinusBright2 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.labelBr1 = new System.Windows.Forms.Label();
             this.buttonPlusBright1 = new System.Windows.Forms.Button();
             this.buttonMinusBright1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -71,7 +71,8 @@ namespace PK_PPU
             // 
             // buttonStart
             // 
-            this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonStart.Enabled = false;
+            this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonStart.Location = new System.Drawing.Point(12, 280);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(202, 45);
@@ -82,7 +83,8 @@ namespace PK_PPU
             // 
             // buttonStop
             // 
-            this.buttonStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonStop.Enabled = false;
+            this.buttonStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonStop.Location = new System.Drawing.Point(235, 280);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(202, 45);
@@ -93,6 +95,7 @@ namespace PK_PPU
             // 
             // comboBoxCollimators
             // 
+            this.comboBoxCollimators.Enabled = false;
             this.comboBoxCollimators.FormattingEnabled = true;
             this.comboBoxCollimators.Location = new System.Drawing.Point(310, 38);
             this.comboBoxCollimators.Name = "comboBoxCollimators";
@@ -144,7 +147,7 @@ namespace PK_PPU
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.label1);
+            this.groupBox7.Controls.Add(this.labelSpeed2);
             this.groupBox7.Controls.Add(this.buttonPlusSpeed2);
             this.groupBox7.Controls.Add(this.buttonMinusSpeed2);
             this.groupBox7.Location = new System.Drawing.Point(14, 102);
@@ -154,18 +157,19 @@ namespace PK_PPU
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Сетка 2";
             // 
-            // label1
+            // labelSpeed2
             // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(119, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 41);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "0";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelSpeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeed2.Location = new System.Drawing.Point(119, 19);
+            this.labelSpeed2.Name = "labelSpeed2";
+            this.labelSpeed2.Size = new System.Drawing.Size(46, 41);
+            this.labelSpeed2.TabIndex = 3;
+            this.labelSpeed2.Text = "0";
+            this.labelSpeed2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonPlusSpeed2
             // 
+            this.buttonPlusSpeed2.Enabled = false;
             this.buttonPlusSpeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonPlusSpeed2.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusSpeed2.Name = "buttonPlusSpeed2";
@@ -173,9 +177,11 @@ namespace PK_PPU
             this.buttonPlusSpeed2.TabIndex = 0;
             this.buttonPlusSpeed2.Text = "+";
             this.buttonPlusSpeed2.UseVisualStyleBackColor = true;
+            this.buttonPlusSpeed2.Click += new System.EventHandler(this.buttonPlusSpeed2_Click);
             // 
             // buttonMinusSpeed2
             // 
+            this.buttonMinusSpeed2.Enabled = false;
             this.buttonMinusSpeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonMinusSpeed2.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusSpeed2.Name = "buttonMinusSpeed2";
@@ -183,10 +189,11 @@ namespace PK_PPU
             this.buttonMinusSpeed2.TabIndex = 0;
             this.buttonMinusSpeed2.Text = "-";
             this.buttonMinusSpeed2.UseVisualStyleBackColor = true;
+            this.buttonMinusSpeed2.Click += new System.EventHandler(this.buttonMinusSpeed2_Click);
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.label2);
+            this.groupBox5.Controls.Add(this.labelSpeed1);
             this.groupBox5.Controls.Add(this.buttonPlusSpeed1);
             this.groupBox5.Controls.Add(this.buttonMinusSpeed1);
             this.groupBox5.Location = new System.Drawing.Point(14, 19);
@@ -196,18 +203,19 @@ namespace PK_PPU
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Сетка 1";
             // 
-            // label2
+            // labelSpeed1
             // 
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(119, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 41);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "0";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelSpeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeed1.Location = new System.Drawing.Point(119, 20);
+            this.labelSpeed1.Name = "labelSpeed1";
+            this.labelSpeed1.Size = new System.Drawing.Size(46, 41);
+            this.labelSpeed1.TabIndex = 3;
+            this.labelSpeed1.Text = "0";
+            this.labelSpeed1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonPlusSpeed1
             // 
+            this.buttonPlusSpeed1.Enabled = false;
             this.buttonPlusSpeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonPlusSpeed1.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusSpeed1.Name = "buttonPlusSpeed1";
@@ -215,9 +223,11 @@ namespace PK_PPU
             this.buttonPlusSpeed1.TabIndex = 0;
             this.buttonPlusSpeed1.Text = "+";
             this.buttonPlusSpeed1.UseVisualStyleBackColor = true;
+            this.buttonPlusSpeed1.Click += new System.EventHandler(this.buttonPlusSpeed1_Click);
             // 
             // buttonMinusSpeed1
             // 
+            this.buttonMinusSpeed1.Enabled = false;
             this.buttonMinusSpeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonMinusSpeed1.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusSpeed1.Name = "buttonMinusSpeed1";
@@ -226,6 +236,7 @@ namespace PK_PPU
             this.buttonMinusSpeed1.TabIndex = 0;
             this.buttonMinusSpeed1.Text = "-";
             this.buttonMinusSpeed1.UseVisualStyleBackColor = true;
+            this.buttonMinusSpeed1.Click += new System.EventHandler(this.buttonMinusSpeed1_Click);
             // 
             // groupBox3
             // 
@@ -242,7 +253,7 @@ namespace PK_PPU
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Controls.Add(this.labelBr2);
             this.groupBox4.Controls.Add(this.buttonPlusBright2);
             this.groupBox4.Controls.Add(this.buttonMinusBright2);
             this.groupBox4.Location = new System.Drawing.Point(14, 102);
@@ -252,18 +263,19 @@ namespace PK_PPU
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Сетка 2";
             // 
-            // label3
+            // labelBr2
             // 
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(119, 19);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 41);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "0";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelBr2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBr2.Location = new System.Drawing.Point(119, 19);
+            this.labelBr2.Name = "labelBr2";
+            this.labelBr2.Size = new System.Drawing.Size(46, 41);
+            this.labelBr2.TabIndex = 3;
+            this.labelBr2.Text = "0";
+            this.labelBr2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonPlusBright2
             // 
+            this.buttonPlusBright2.Enabled = false;
             this.buttonPlusBright2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonPlusBright2.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusBright2.Name = "buttonPlusBright2";
@@ -271,9 +283,11 @@ namespace PK_PPU
             this.buttonPlusBright2.TabIndex = 0;
             this.buttonPlusBright2.Text = "+";
             this.buttonPlusBright2.UseVisualStyleBackColor = true;
+            this.buttonPlusBright2.Click += new System.EventHandler(this.buttonPlusBright2_Click);
             // 
             // buttonMinusBright2
             // 
+            this.buttonMinusBright2.Enabled = false;
             this.buttonMinusBright2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonMinusBright2.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusBright2.Name = "buttonMinusBright2";
@@ -281,10 +295,11 @@ namespace PK_PPU
             this.buttonMinusBright2.TabIndex = 0;
             this.buttonMinusBright2.Text = "-";
             this.buttonMinusBright2.UseVisualStyleBackColor = true;
+            this.buttonMinusBright2.Click += new System.EventHandler(this.buttonMinusBright2_Click);
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.label4);
+            this.groupBox6.Controls.Add(this.labelBr1);
             this.groupBox6.Controls.Add(this.buttonPlusBright1);
             this.groupBox6.Controls.Add(this.buttonMinusBright1);
             this.groupBox6.Location = new System.Drawing.Point(14, 19);
@@ -294,18 +309,19 @@ namespace PK_PPU
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Сетка 1";
             // 
-            // label4
+            // labelBr1
             // 
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(119, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 41);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "0";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelBr1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBr1.Location = new System.Drawing.Point(119, 19);
+            this.labelBr1.Name = "labelBr1";
+            this.labelBr1.Size = new System.Drawing.Size(46, 41);
+            this.labelBr1.TabIndex = 3;
+            this.labelBr1.Text = "0";
+            this.labelBr1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // buttonPlusBright1
             // 
+            this.buttonPlusBright1.Enabled = false;
             this.buttonPlusBright1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonPlusBright1.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusBright1.Name = "buttonPlusBright1";
@@ -313,9 +329,11 @@ namespace PK_PPU
             this.buttonPlusBright1.TabIndex = 0;
             this.buttonPlusBright1.Text = "+";
             this.buttonPlusBright1.UseVisualStyleBackColor = true;
+            this.buttonPlusBright1.Click += new System.EventHandler(this.buttonPlusBright1_Click);
             // 
             // buttonMinusBright1
             // 
+            this.buttonMinusBright1.Enabled = false;
             this.buttonMinusBright1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonMinusBright1.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusBright1.Name = "buttonMinusBright1";
@@ -323,6 +341,7 @@ namespace PK_PPU
             this.buttonMinusBright1.TabIndex = 0;
             this.buttonMinusBright1.Text = "-\r\n";
             this.buttonMinusBright1.UseVisualStyleBackColor = true;
+            this.buttonMinusBright1.Click += new System.EventHandler(this.buttonMinusBright1_Click);
             // 
             // Form1
             // 
@@ -363,19 +382,21 @@ namespace PK_PPU
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Button buttonPlusSpeed2;
         private System.Windows.Forms.Button buttonMinusSpeed2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelSpeed2;
+        private System.Windows.Forms.Label labelBright1;
         private System.Windows.Forms.Button buttonPlusSpeed1;
         private System.Windows.Forms.Button buttonMinusSpeed1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelBr2;
         private System.Windows.Forms.Button buttonPlusBright2;
         private System.Windows.Forms.Button buttonMinusBright2;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.Label label4;
+        //private System.Windows.Forms.Label labelBright1;
         private System.Windows.Forms.Button buttonPlusBright1;
         private System.Windows.Forms.Button buttonMinusBright1;
+        private System.Windows.Forms.Label labelSpeed1;
+        private System.Windows.Forms.Label labelBr1;
     }
 }
 

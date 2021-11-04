@@ -32,6 +32,7 @@ namespace PK_PPU
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            
             ports = SerialPort.GetPortNames();
 
         }
@@ -151,10 +152,12 @@ namespace PK_PPU
                 if(selectedState.Equals(collimators[i].getName()))
                 {
                     selectedCollimator = collimators[i];
-                    Console.WriteLine(collimators[i]);
+                    Console.WriteLine(selectedCollimator);
                     break;
                 }
             }
+
+            initButtons();
         }
 
         public static byte calcSumXOR(byte[] bytes, byte length)
@@ -174,10 +177,6 @@ namespace PK_PPU
             for (byte i = 0; i < 8; i++)
             {
                 string temp = initCollimators(i);
-                //if(!temp.Equals("none"))
-                //{
-                //list.Add(temp);
-                // }
             }
 
             array = new string[collimators.Count];
@@ -188,22 +187,142 @@ namespace PK_PPU
                 
             }
 
+            comboBoxCollimators.Enabled = true;
             comboBoxCollimators.Items.AddRange(array);
             
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-
+            sendData(selectedCollimator.getPort(), selectedCollimator.createPacketToSend());
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         { //label1.Text = Convert.ToString("ffff" + bt);       
+            Console.WriteLine(selectedCollimator.GetType());
+            Console.WriteLine(selectedCollimator.GetType().ToString().Equals("PK_PPU.TV_Collimator"));
 
+            
+        }
+// ----------------------------------------  Скорость (Сетка 1)
+        private void buttonMinusSpeed1_Click(object sender, EventArgs e)
+        {
+            if(selectedCollimator.getGrid1().getSpeed() > -10)
+            {
+                selectedCollimator.getGrid1().setSpeed((sbyte)(selectedCollimator.getGrid1().getSpeed() - 1));
+                labelSpeed1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getSpeed());
+            }            
+        }
+
+        private void buttonPlusSpeed1_Click(object sender, EventArgs e)
+        {
+            if(selectedCollimator.getGrid1().getSpeed() < 10)
+            {
+                selectedCollimator.getGrid1().setSpeed((sbyte)(selectedCollimator.getGrid1().getSpeed() + 1));
+                labelSpeed1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getSpeed());
+            }           
+        }
+// ----------------------------------------  Скорость (Сетка 2)
+        private void buttonMinusSpeed2_Click(object sender, EventArgs e)
+        {
+            if (selectedCollimator.getGrid2().getSpeed() > -10)
+            {
+                selectedCollimator.getGrid2().setSpeed((sbyte)(selectedCollimator.getGrid2().getSpeed() - 1));
+                labelSpeed2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getSpeed());
+            }
+        }
+
+        private void buttonPlusSpeed2_Click(object sender, EventArgs e)
+        {
+            if (selectedCollimator.getGrid2().getSpeed() < 10)
+            {
+                selectedCollimator.getGrid2().setSpeed((sbyte)(selectedCollimator.getGrid2().getSpeed() + 1));
+                labelSpeed2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getSpeed());
+            }
+        }
+// ----------------------------------------  Яркость (Сетка 1)
+        private void buttonMinusBright1_Click(object sender, EventArgs e)
+        {
+            if (selectedCollimator.getGrid1().getBright() > 1)
+            {
+                selectedCollimator.getGrid1().setBright((byte)(selectedCollimator.getGrid1().getBright() - 1));
+                labelBr1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getBright());
+            }
+        }
+
+        private void buttonPlusBright1_Click(object sender, EventArgs e)
+        {
+           if (selectedCollimator.getGrid1().getBright() < 10)
+            {
+                selectedCollimator.getGrid1().setBright((byte)(selectedCollimator.getGrid1().getBright() + 1));
+                labelBr1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getBright());
+            }
+        }
+// ----------------------------------------  Яркость (Сетка 2)
+        private void buttonMinusBright2_Click(object sender, EventArgs e)
+        {
+            if (selectedCollimator.getGrid2().getBright() > 1)
+            {
+                selectedCollimator.getGrid2().setBright((byte)(selectedCollimator.getGrid2().getBright() - 1));
+                labelBr2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getBright());
+            }
+        }
+
+        private void buttonPlusBright2_Click(object sender, EventArgs e)
+        {
+            if (selectedCollimator.getGrid2().getBright() < 10)
+            {
+                selectedCollimator.getGrid2().setBright((byte)(selectedCollimator.getGrid2().getBright() + 1));
+                labelBr2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getBright());
+            }
+        }
+
+        public void initButtons ()
+        {
+            buttonMinusSpeed1.Enabled = true;
+            buttonPlusSpeed1.Enabled = true;
+            buttonMinusBright1.Enabled = true;
+            buttonPlusBright1.Enabled = true;
+
+            buttonMinusSpeed2.Enabled = false;
+            buttonPlusSpeed2.Enabled = false;
+            buttonMinusBright2.Enabled = false;
+            buttonPlusBright2.Enabled = false;
+
+            buttonStart.Enabled = true;
+            buttonStop.Enabled = true;
+
+            if(selectedCollimator.GetType().ToString().Equals("PK_PPU.TV_Collimator"))
+            {
+                buttonMinusSpeed2.Enabled = true;
+                buttonPlusSpeed2.Enabled = true;
+                buttonMinusBright2.Enabled = true;
+                buttonPlusBright2.Enabled = true;
+            }
+        }
+
+        public void deInitButtons()
+        {
+            buttonMinusSpeed1.Enabled = false;
+            buttonPlusSpeed1.Enabled = false;
+            buttonMinusBright1.Enabled = false;
+            buttonPlusBright1.Enabled = false;
+
+            buttonMinusSpeed2.Enabled = false;
+            buttonPlusSpeed2.Enabled = false;
+            buttonMinusBright2.Enabled = false;
+            buttonPlusBright2.Enabled = false;
+
+            buttonStart.Enabled = false;
+           
+            buttonMinusSpeed2.Enabled = false;
+            buttonPlusSpeed2.Enabled = false;
+            buttonMinusBright2.Enabled = false;
+            buttonPlusBright2.Enabled = false;            
         }
     }
 
-     abstract class Collimator
+    abstract class Collimator
      {
         private byte type;
         private string name;
@@ -213,8 +332,16 @@ namespace PK_PPU
             this.name = name;
             this.port = port;
             this.type = type;
-        }       
-            
+        }
+
+        public abstract Grid getGrid1();
+
+
+        public abstract Grid getGrid2();
+
+     
+        public abstract void printInfo();
+        
         public abstract byte[] createPacketToSend();
 
         public abstract byte getFlags();
@@ -250,6 +377,10 @@ namespace PK_PPU
             grid1 = new Grid();
         }
 
+        public override void printInfo()
+        {
+            Console.WriteLine("TPV_Collimator");
+        }
         public override byte[] createPacketToSend()
         {
             byte[] packToSend = new byte[14];
@@ -269,6 +400,15 @@ namespace PK_PPU
             return packToSend;
         }
 
+        public override Grid getGrid1 ()
+        {
+            return grid1;
+        }
+
+        public override Grid getGrid2()
+        {
+            return null;
+        }
         public override byte getFlags()
         {
             int bt = 0;
@@ -297,6 +437,20 @@ namespace PK_PPU
             grid2 = new Grid();
         }
 
+        
+        public override void printInfo()
+        {
+            Console.WriteLine("TV_Collimator");
+        }
+        public override Grid getGrid1()
+        {
+            return grid1;
+        }
+
+        public override Grid getGrid2()
+        {
+            return grid2;
+        }
         public override byte[] createPacketToSend()
         {
             byte[] packToSend = new byte[14];
@@ -390,7 +544,7 @@ namespace PK_PPU
         }
         public void setSpeed(sbyte speed)
         {
-            this.speed += speed;
+            this.speed = speed;
         }
 
         public sbyte getSpeed()
@@ -400,7 +554,7 @@ namespace PK_PPU
 
         public void setBright(byte bright)
         {
-            this.bright += bright;
+            this.bright = bright;
         }
 
         public byte getBright()
