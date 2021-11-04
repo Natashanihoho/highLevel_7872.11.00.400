@@ -32,26 +32,29 @@ namespace PK_PPU
             this.components = new System.ComponentModel.Container();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.buttonStart = new System.Windows.Forms.Button();
-            this.buttonStop = new System.Windows.Forms.Button();
             this.comboBoxCollimators = new System.Windows.Forms.ComboBox();
             this.label = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonInit = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.checkBoxMotor2 = new System.Windows.Forms.CheckBox();
             this.labelSpeed2 = new System.Windows.Forms.Label();
             this.buttonPlusSpeed2 = new System.Windows.Forms.Button();
             this.buttonMinusSpeed2 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBoxMotor1 = new System.Windows.Forms.CheckBox();
             this.labelSpeed1 = new System.Windows.Forms.Label();
             this.buttonPlusSpeed1 = new System.Windows.Forms.Button();
             this.buttonMinusSpeed1 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkBoxHeat2 = new System.Windows.Forms.CheckBox();
             this.labelBr2 = new System.Windows.Forms.Label();
             this.buttonPlusBright2 = new System.Windows.Forms.Button();
             this.buttonMinusBright2 = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.checkBoxHeat1 = new System.Windows.Forms.CheckBox();
             this.labelBr1 = new System.Windows.Forms.Label();
             this.buttonPlusBright1 = new System.Windows.Forms.Button();
             this.buttonMinusBright1 = new System.Windows.Forms.Button();
@@ -73,25 +76,13 @@ namespace PK_PPU
             // 
             this.buttonStart.Enabled = false;
             this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonStart.Location = new System.Drawing.Point(12, 280);
+            this.buttonStart.Location = new System.Drawing.Point(12, 349);
             this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(202, 45);
+            this.buttonStart.Size = new System.Drawing.Size(425, 45);
             this.buttonStart.TabIndex = 0;
             this.buttonStart.Text = "Старт ";
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
-            // 
-            // buttonStop
-            // 
-            this.buttonStop.Enabled = false;
-            this.buttonStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonStop.Location = new System.Drawing.Point(235, 280);
-            this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(202, 45);
-            this.buttonStop.TabIndex = 0;
-            this.buttonStop.Text = "Стоп";
-            this.buttonStop.UseVisualStyleBackColor = true;
-            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
             // 
             // comboBoxCollimators
             // 
@@ -140,22 +131,35 @@ namespace PK_PPU
             this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Location = new System.Drawing.Point(12, 88);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(202, 186);
+            this.groupBox2.Size = new System.Drawing.Size(202, 255);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Скорость";
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.checkBoxMotor2);
             this.groupBox7.Controls.Add(this.labelSpeed2);
             this.groupBox7.Controls.Add(this.buttonPlusSpeed2);
             this.groupBox7.Controls.Add(this.buttonMinusSpeed2);
-            this.groupBox7.Location = new System.Drawing.Point(14, 102);
+            this.groupBox7.Location = new System.Drawing.Point(14, 131);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(171, 72);
+            this.groupBox7.Size = new System.Drawing.Size(171, 106);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Сетка 2";
+            // 
+            // checkBoxMotor2
+            // 
+            this.checkBoxMotor2.AutoSize = true;
+            this.checkBoxMotor2.Enabled = false;
+            this.checkBoxMotor2.Location = new System.Drawing.Point(15, 77);
+            this.checkBoxMotor2.Name = "checkBoxMotor2";
+            this.checkBoxMotor2.Size = new System.Drawing.Size(106, 17);
+            this.checkBoxMotor2.TabIndex = 4;
+            this.checkBoxMotor2.Text = "Пуск двигателя";
+            this.checkBoxMotor2.UseVisualStyleBackColor = true;
+            this.checkBoxMotor2.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelSpeed2
             // 
@@ -193,15 +197,28 @@ namespace PK_PPU
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.checkBoxMotor1);
             this.groupBox5.Controls.Add(this.labelSpeed1);
             this.groupBox5.Controls.Add(this.buttonPlusSpeed1);
             this.groupBox5.Controls.Add(this.buttonMinusSpeed1);
             this.groupBox5.Location = new System.Drawing.Point(14, 19);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(171, 72);
+            this.groupBox5.Size = new System.Drawing.Size(171, 106);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Сетка 1";
+            // 
+            // checkBoxMotor1
+            // 
+            this.checkBoxMotor1.AutoSize = true;
+            this.checkBoxMotor1.Enabled = false;
+            this.checkBoxMotor1.Location = new System.Drawing.Point(15, 77);
+            this.checkBoxMotor1.Name = "checkBoxMotor1";
+            this.checkBoxMotor1.Size = new System.Drawing.Size(106, 17);
+            this.checkBoxMotor1.TabIndex = 4;
+            this.checkBoxMotor1.Text = "Пуск двигателя";
+            this.checkBoxMotor1.UseVisualStyleBackColor = true;
+            this.checkBoxMotor1.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelSpeed1
             // 
@@ -246,22 +263,35 @@ namespace PK_PPU
             this.groupBox3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox3.Location = new System.Drawing.Point(235, 88);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(202, 186);
+            this.groupBox3.Size = new System.Drawing.Size(202, 255);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Яркость";
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkBoxHeat2);
             this.groupBox4.Controls.Add(this.labelBr2);
             this.groupBox4.Controls.Add(this.buttonPlusBright2);
             this.groupBox4.Controls.Add(this.buttonMinusBright2);
-            this.groupBox4.Location = new System.Drawing.Point(14, 102);
+            this.groupBox4.Location = new System.Drawing.Point(14, 131);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(171, 72);
+            this.groupBox4.Size = new System.Drawing.Size(171, 106);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Сетка 2";
+            // 
+            // checkBoxHeat2
+            // 
+            this.checkBoxHeat2.AutoSize = true;
+            this.checkBoxHeat2.Enabled = false;
+            this.checkBoxHeat2.Location = new System.Drawing.Point(15, 77);
+            this.checkBoxHeat2.Name = "checkBoxHeat2";
+            this.checkBoxHeat2.Size = new System.Drawing.Size(130, 17);
+            this.checkBoxHeat2.TabIndex = 4;
+            this.checkBoxHeat2.Text = "Включить подсветку";
+            this.checkBoxHeat2.UseVisualStyleBackColor = true;
+            this.checkBoxHeat2.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelBr2
             // 
@@ -299,15 +329,28 @@ namespace PK_PPU
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.checkBoxHeat1);
             this.groupBox6.Controls.Add(this.labelBr1);
             this.groupBox6.Controls.Add(this.buttonPlusBright1);
             this.groupBox6.Controls.Add(this.buttonMinusBright1);
             this.groupBox6.Location = new System.Drawing.Point(14, 19);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(171, 72);
+            this.groupBox6.Size = new System.Drawing.Size(171, 106);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Сетка 1";
+            // 
+            // checkBoxHeat1
+            // 
+            this.checkBoxHeat1.AutoSize = true;
+            this.checkBoxHeat1.Enabled = false;
+            this.checkBoxHeat1.Location = new System.Drawing.Point(15, 77);
+            this.checkBoxHeat1.Name = "checkBoxHeat1";
+            this.checkBoxHeat1.Size = new System.Drawing.Size(130, 17);
+            this.checkBoxHeat1.TabIndex = 4;
+            this.checkBoxHeat1.Text = "Включить подсветку";
+            this.checkBoxHeat1.UseVisualStyleBackColor = true;
+            this.checkBoxHeat1.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelBr1
             // 
@@ -347,11 +390,10 @@ namespace PK_PPU
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(451, 337);
+            this.ClientSize = new System.Drawing.Size(451, 406);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
             this.Name = "Form1";
             this.Text = "7872.11.00.400";
@@ -360,10 +402,14 @@ namespace PK_PPU
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -372,7 +418,6 @@ namespace PK_PPU
 
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button buttonStart;
-        private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.ComboBox comboBoxCollimators;
         private System.Windows.Forms.Label label;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -397,6 +442,10 @@ namespace PK_PPU
         private System.Windows.Forms.Button buttonMinusBright1;
         private System.Windows.Forms.Label labelSpeed1;
         private System.Windows.Forms.Label labelBr1;
+        public System.Windows.Forms.CheckBox checkBoxMotor2;
+        public System.Windows.Forms.CheckBox checkBoxMotor1;
+        public System.Windows.Forms.CheckBox checkBoxHeat2;
+        public System.Windows.Forms.CheckBox checkBoxHeat1;
     }
 }
 

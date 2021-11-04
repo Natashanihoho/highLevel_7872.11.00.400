@@ -34,11 +34,14 @@ namespace PK_PPU
         {
             
             ports = SerialPort.GetPortNames();
-
+            
         }
 
         public void sendData(string serialPort, byte[] pack)
         {
+            Console.WriteLine("SPEED 1: " + selectedCollimator.getGrid1().getSpeed());
+            Console.WriteLine("SPEED 2: " + selectedCollimator.getGrid2().getSpeed());
+            Console.WriteLine("buffer[11]: " + pack[11]);
             serialPort1.PortName = serialPort;
             serialPort1.Open();
             if (serialPort1.IsOpen)
@@ -153,6 +156,22 @@ namespace PK_PPU
                 {
                     selectedCollimator = collimators[i];
                     Console.WriteLine(selectedCollimator);
+
+                    labelSpeed1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getSpeed());
+                    labelBr1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getBright());
+                    labelSpeed2.Text = Convert.ToString("" + 0);
+                    labelBr2.Text = Convert.ToString("" + 0);
+
+                    if (selectedCollimator.getGrid2() != null)
+                    {
+                        labelSpeed2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getSpeed());
+                        labelBr2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getBright());
+                    }
+
+                    checkBoxMotor1.Checked = false;
+                    checkBoxMotor2.Checked = false;
+                    checkBoxHeat1.Checked = false;
+                    checkBoxHeat2.Checked = false;
                     break;
                 }
             }
@@ -272,6 +291,7 @@ namespace PK_PPU
         {
             if (selectedCollimator.getGrid2().getBright() < 10)
             {
+               
                 selectedCollimator.getGrid2().setBright((byte)(selectedCollimator.getGrid2().getBright() + 1));
                 labelBr2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getBright());
             }
@@ -290,35 +310,34 @@ namespace PK_PPU
             buttonPlusBright2.Enabled = false;
 
             buttonStart.Enabled = true;
-            buttonStop.Enabled = true;
 
-            if(selectedCollimator.GetType().ToString().Equals("PK_PPU.TV_Collimator"))
+            checkBoxHeat1.Enabled = true;
+            checkBoxMotor1.Enabled = true;
+            checkBoxHeat2.Enabled = false;
+            checkBoxMotor2.Enabled = false;
+
+            if (selectedCollimator.GetType().ToString().Equals("PK_PPU.TV_Collimator"))
             {
                 buttonMinusSpeed2.Enabled = true;
                 buttonPlusSpeed2.Enabled = true;
                 buttonMinusBright2.Enabled = true;
                 buttonPlusBright2.Enabled = true;
+
+                checkBoxHeat2.Enabled = true;
+                checkBoxMotor2.Enabled = true;
             }
         }
 
-        public void deInitButtons()
+        private void checkBoxEvents(object sender, EventArgs e)
         {
-            buttonMinusSpeed1.Enabled = false;
-            buttonPlusSpeed1.Enabled = false;
-            buttonMinusBright1.Enabled = false;
-            buttonPlusBright1.Enabled = false;
-
-            buttonMinusSpeed2.Enabled = false;
-            buttonPlusSpeed2.Enabled = false;
-            buttonMinusBright2.Enabled = false;
-            buttonPlusBright2.Enabled = false;
-
-            buttonStart.Enabled = false;
-           
-            buttonMinusSpeed2.Enabled = false;
-            buttonPlusSpeed2.Enabled = false;
-            buttonMinusBright2.Enabled = false;
-            buttonPlusBright2.Enabled = false;            
+            if (checkBoxMotor1.Checked == true) selectedCollimator.getGrid1().setStart(true); else selectedCollimator.getGrid1().setStart(false);
+            if (checkBoxHeat1.Checked == true) selectedCollimator.getGrid1().setHeatOn(true); else selectedCollimator.getGrid1().setHeatOn(false);
+            if (selectedCollimator.getGrid2() != null)
+            {
+                if (checkBoxMotor2.Checked == true) selectedCollimator.getGrid2().setStart(true); else selectedCollimator.getGrid2().setStart(false);
+                if (checkBoxHeat2.Checked == true) selectedCollimator.getGrid2().setHeatOn(true); else selectedCollimator.getGrid2().setHeatOn(false);
+            }          
+            
         }
     }
 
@@ -363,7 +382,7 @@ namespace PK_PPU
 
         public override string ToString()
         {
-            return "COLLIMATOR name: " + name + " type: " + type +  " port: " + port;
+            return "COLLIMATOR name: " + name + " type: " + type +  " port: " + port + "speed: " + getGrid1().getSpeed();
         }
 
     }
@@ -390,9 +409,10 @@ namespace PK_PPU
             packToSend[2] = getFlags();
             for (byte i = 3; i < 9; i++)
                 packToSend[i] = 0;
-            packToSend[9] = grid1.getBright();
+            packToSend[9] = (byte)(grid1.getBright() * 2);
             packToSend[10] = 0;
-            int speedByte = (grid1.getSpeed() & 0x0F);
+            sbyte sp1 = grid1.getSpeed(); if (sp1 < 0) sp1 = (sbyte)(sp1 * (-1));
+            int speedByte = (sp1 & 0x0F);
             packToSend[11] = (byte)speedByte;
             packToSend[12] = 0;
             packToSend[13] = Form1.calcSumXOR(packToSend, 13);
@@ -460,9 +480,12 @@ namespace PK_PPU
             packToSend[2] = getFlags();
             for (byte i = 3; i < 9; i++)
                 packToSend[i] = 0;
-            packToSend[9] = grid1.getBright();
-            packToSend[10] = grid2.getBright();
-            int speedByte = (grid1.getSpeed() & 0x0F) | (grid2.getSpeed() & 0xF0);
+            packToSend[9] = (byte)(grid1.getBright() * 2);
+            packToSend[10] = (byte)(grid2.getBright() * 2);
+
+            sbyte sp1 = grid1.getSpeed(); if (sp1 < 0) sp1 = (sbyte)(sp1 * (-1));
+            sbyte sp2 = grid2.getSpeed(); if (sp2 < 0) sp2 = (sbyte)(sp2 * (-1));
+            int speedByte = sp1 + ((sp2 << 4) & 0xF0);
             packToSend[11] = (byte)speedByte;
             packToSend[12] = 0;
             packToSend[13] = Form1.calcSumXOR(packToSend, 13);
@@ -473,7 +496,7 @@ namespace PK_PPU
         public override byte getFlags()
         {
             int bt = 0;
-
+            
             if (grid1.getStart()) bt |= 0x01;
             else bt &= ~(1 << 0);
 
@@ -489,7 +512,7 @@ namespace PK_PPU
             if (grid2.getDirect()) bt |= 0x08;
             else bt &= ~(1 << 3);
 
-            if (grid1.getHeatOn()) bt |= 0x80;
+            if (grid2.getHeatOn()) bt |= 0x80;
             else bt &= ~(1 << 7);
 
             return (byte)bt;
@@ -523,14 +546,10 @@ namespace PK_PPU
         {
             return heatOn;
         }
-        public void setDirect(bool direct)
-        {
-            this.direct = direct;
-        }
-
+       
         public bool getDirect()
         {
-            return direct;
+            return getSpeed() >= 0 ? false: true;
         }
 
         public void setStart(bool start)
