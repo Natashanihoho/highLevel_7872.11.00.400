@@ -46,22 +46,14 @@ namespace PK_PPU
             if (serialPort1.IsOpen)
             {
                 serialPort1.Write(pack, 0, 14);
-                Thread.Sleep(150);
+                Console.WriteLine("TX: " + BitConverter.ToString(pack));
+                Console.WriteLine("HEAT: " + pack[9] +"%");
+                Thread.Sleep(200);
                 serialPort1.Close();
             }
         }
         public string initCollimators(byte x)
         {
-            /*serialPort1.PortName = "COM9";
-            serialPort1.Open();
-            if (serialPort1.IsOpen)
-            {
-                bufTx[0] = STARTBYTE;
-                bufTx[1] = x;
-                bufTx[13] = calcSumXOR(bufTx, 13);
-                serialPort1.Write(bufTx, 0, 14);
-                Thread.Sleep(200);
-                serialPort1.Close();*/
                 for (int i = 0; i < ports.Length; i++)
                 {
                     serialPort1.PortName = ports[i];
@@ -96,7 +88,6 @@ namespace PK_PPU
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             endRX = false;
-            StringBuilder builder = new StringBuilder();
             
             for(int i = 0; i < 14; i++)
             {
@@ -107,20 +98,19 @@ namespace PK_PPU
                 try
                 {
                     bufRx[count_bytes] = (byte)serialPort1.ReadByte();
-                    builder.Append(bufRx[count_bytes] + " ");
                     count_bytes++;
                     
                     switch (count_bytes)
                     {
                         case 1: if (bufRx[0] != 170) count_bytes = 0; break;
-                        case 14: count_bytes = 0; Console.WriteLine("RECEIVING!!!");
+                        case 14: count_bytes = 0; 
                             if (calcSumXOR(bufRx, 14) == 0)
                             {
-                                Console.WriteLine("XOR IS CORRECT!!!");
+                                Console.WriteLine("RX: " + BitConverter.ToString(bufRx));
+                                Console.WriteLine("TEMPERATURE: " + bufRx[10]);
                                 endRX = true;
                                 if(isInit)
                                 {
-                                    Console.WriteLine("isInit true");
                                     string result = "";
                                     if (bufRx[1] % 2 == 0)
                                     {
@@ -158,7 +148,7 @@ namespace PK_PPU
          
             }
             count_bytes = 0;
-            Console.WriteLine("RX: " + builder.ToString());
+            
             //this.Invoke(new EventHandler(ShowData));
         }
 
@@ -178,6 +168,7 @@ namespace PK_PPU
                 if(selectedState.Equals(collimators[i].getName()))
                 {
                     selectedCollimator = collimators[i];
+                    labelCom.Text = "Port  " + selectedCollimator.getPort();
                     Console.WriteLine(selectedCollimator);
 
                     labelSpeed1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getSpeed());

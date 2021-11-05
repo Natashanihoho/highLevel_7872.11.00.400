@@ -35,6 +35,8 @@ namespace PK_PPU
             this.comboBoxCollimators = new System.Windows.Forms.ComboBox();
             this.label = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelCom = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.buttonInit = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -58,7 +60,6 @@ namespace PK_PPU
             this.labelBr1 = new System.Windows.Forms.Label();
             this.buttonPlusBright1 = new System.Windows.Forms.Button();
             this.buttonMinusBright1 = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -91,7 +92,7 @@ namespace PK_PPU
             this.comboBoxCollimators.FormattingEnabled = true;
             this.comboBoxCollimators.Location = new System.Drawing.Point(310, 38);
             this.comboBoxCollimators.Name = "comboBoxCollimators";
-            this.comboBoxCollimators.Size = new System.Drawing.Size(110, 21);
+            this.comboBoxCollimators.Size = new System.Drawing.Size(98, 21);
             this.comboBoxCollimators.TabIndex = 1;
             this.comboBoxCollimators.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -106,22 +107,39 @@ namespace PK_PPU
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.labelCom);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.buttonInit);
             this.groupBox1.Controls.Add(this.comboBoxCollimators);
             this.groupBox1.Controls.Add(this.label);
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Location = new System.Drawing.Point(12, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(437, 70);
+            this.groupBox1.Size = new System.Drawing.Size(425, 70);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
+            // 
+            // labelCom
+            // 
+            this.labelCom.AutoSize = true;
+            this.labelCom.Location = new System.Drawing.Point(182, 16);
+            this.labelCom.Name = "labelCom";
+            this.labelCom.Size = new System.Drawing.Size(104, 13);
+            this.labelCom.TabIndex = 6;
+            this.labelCom.Text = "Port_____________";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(185, 38);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 21);
+            this.progressBar1.TabIndex = 5;
             // 
             // buttonInit
             // 
             this.buttonInit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInit.Location = new System.Drawing.Point(12, 12);
+            this.buttonInit.Location = new System.Drawing.Point(14, 16);
             this.buttonInit.Name = "buttonInit";
-            this.buttonInit.Size = new System.Drawing.Size(153, 47);
+            this.buttonInit.Size = new System.Drawing.Size(151, 43);
             this.buttonInit.TabIndex = 5;
             this.buttonInit.Text = "Инициализация коллиматоров";
             this.buttonInit.UseVisualStyleBackColor = true;
@@ -388,13 +406,6 @@ namespace PK_PPU
             this.buttonMinusBright1.UseVisualStyleBackColor = true;
             this.buttonMinusBright1.Click += new System.EventHandler(this.buttonMinusBright1_Click);
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(184, 28);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 21);
-            this.progressBar1.TabIndex = 5;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,6 +467,7 @@ namespace PK_PPU
         public System.Windows.Forms.CheckBox checkBoxHeat2;
         public System.Windows.Forms.CheckBox checkBoxHeat1;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label labelCom;
     }
 }
 
