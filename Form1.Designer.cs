@@ -58,6 +58,7 @@ namespace PK_PPU
             this.labelBr1 = new System.Windows.Forms.Label();
             this.buttonPlusBright1 = new System.Windows.Forms.Button();
             this.buttonMinusBright1 = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -105,6 +106,7 @@ namespace PK_PPU
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.buttonInit);
             this.groupBox1.Controls.Add(this.comboBoxCollimators);
             this.groupBox1.Controls.Add(this.label);
@@ -386,6 +388,13 @@ namespace PK_PPU
             this.buttonMinusBright1.UseVisualStyleBackColor = true;
             this.buttonMinusBright1.Click += new System.EventHandler(this.buttonMinusBright1_Click);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(184, 28);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 21);
+            this.progressBar1.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -446,6 +455,7 @@ namespace PK_PPU
         public System.Windows.Forms.CheckBox checkBoxMotor1;
         public System.Windows.Forms.CheckBox checkBoxHeat2;
         public System.Windows.Forms.CheckBox checkBoxHeat1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

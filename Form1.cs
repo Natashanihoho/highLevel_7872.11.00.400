@@ -23,7 +23,7 @@ namespace PK_PPU
         public static bool endRX = false;
         string[] ports;
         Collimator selectedCollimator;
-        
+        bool isInit = false;
 
         public Form1()
         {
@@ -34,14 +34,13 @@ namespace PK_PPU
         {
             
             ports = SerialPort.GetPortNames();
+            for (int i = 0; i < ports.Length; i++)
+                Console.WriteLine(ports[i]);
             
         }
 
         public void sendData(string serialPort, byte[] pack)
-        {
-            Console.WriteLine("SPEED 1: " + selectedCollimator.getGrid1().getSpeed());
-            Console.WriteLine("SPEED 2: " + selectedCollimator.getGrid2().getSpeed());
-            Console.WriteLine("buffer[11]: " + pack[11]);
+        {     
             serialPort1.PortName = serialPort;
             serialPort1.Open();
             if (serialPort1.IsOpen)
@@ -53,38 +52,52 @@ namespace PK_PPU
         }
         public string initCollimators(byte x)
         {
-            
-            for (int i = 0; i < ports.Length; i++)
+            /*serialPort1.PortName = "COM9";
+            serialPort1.Open();
+            if (serialPort1.IsOpen)
             {
-                serialPort1.PortName = ports[i];
-                serialPort1.Open();
-
-                if(serialPort1.IsOpen)
+                bufTx[0] = STARTBYTE;
+                bufTx[1] = x;
+                bufTx[13] = calcSumXOR(bufTx, 13);
+                serialPort1.Write(bufTx, 0, 14);
+                Thread.Sleep(200);
+                serialPort1.Close();*/
+                for (int i = 0; i < ports.Length; i++)
                 {
-                    bufTx[0] = STARTBYTE;
-                    bufTx[1] = x;
-                    bufTx[13] = calcSumXOR(bufTx, 13);
-                    serialPort1.Write(bufTx, 0, 14);
+                    serialPort1.PortName = ports[i];
+                    serialPort1.Open();
 
-                    Thread.Sleep(150);
-                    if (endRX)
+                    if(serialPort1.IsOpen)
                     {
-                        endRX = false;
-                        //Console.WriteLine("Collimator is found: " + ports[i]);
-                        serialPort1.Close();
-                        return "collimator " + x + " " + ports[i];
-                    }
-                   // else Console.WriteLine("COM is invalid: " + ports[i]);
-                    serialPort1.Close();
+                        bufTx[0] = STARTBYTE;
+                        bufTx[1] = x;
+                        bufTx[13] = calcSumXOR(bufTx, 13);
+                        serialPort1.Write(bufTx, 0, 14);
 
-                }
+                        Console.WriteLine("Send to " + ports[i]);
+
+                        Thread.Sleep(200);
+                        if (endRX)
+                        {
+                            endRX = false;
+                            //Console.WriteLine("Collimator is found: " + ports[i]);
+                            serialPort1.Close();
+                            return "collimator " + x + " " + ports[i];
+                        }
+                       // else Console.WriteLine("COM is invalid: " + ports[i]);
+                        serialPort1.Close();
+
+                    }
             }
-            return "none";
+               
+                return "none";
         }
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             endRX = false;
+            StringBuilder builder = new StringBuilder();
+            
             for(int i = 0; i < 14; i++)
             {
                 bufRx[i] = 0;
@@ -94,32 +107,42 @@ namespace PK_PPU
                 try
                 {
                     bufRx[count_bytes] = (byte)serialPort1.ReadByte();
+                    builder.Append(bufRx[count_bytes] + " ");
                     count_bytes++;
+                    
                     switch (count_bytes)
                     {
                         case 1: if (bufRx[0] != 170) count_bytes = 0; break;
-                        case 14: count_bytes = 0;
+                        case 14: count_bytes = 0; Console.WriteLine("RECEIVING!!!");
                             if (calcSumXOR(bufRx, 14) == 0)
                             {
+                                Console.WriteLine("XOR IS CORRECT!!!");
                                 endRX = true;
-                                string result = "";
-                                if (bufRx[1] % 2 == 0)
+                                if(isInit)
                                 {
-                                    result = "ТВ" + bufRx[1] / 2;
-                                    TV_Collimator tvCollimator = new TV_Collimator(result, serialPort1.PortName, bufRx[1]);
-                                    Console.WriteLine(tvCollimator);
-                                    collimators.Add(tvCollimator);
-                                }
-                                else
-                                {
-                                    result = result = "ТПВ" + bufRx[1] / 2;
-                                    TPV_Collimator tpvCollimator = new TPV_Collimator(result, serialPort1.PortName, bufRx[1]);
-                                    Console.WriteLine(tpvCollimator);
-                                    collimators.Add(tpvCollimator);
-                                }
+                                    Console.WriteLine("isInit true");
+                                    string result = "";
+                                    if (bufRx[1] % 2 == 0)
+                                    {
+                                        result = "ТВ" + bufRx[1] / 2;
+                                        TV_Collimator tvCollimator = new TV_Collimator(result, serialPort1.PortName, bufRx[1]);
+                                        Console.WriteLine(tvCollimator);
+                                        collimators.Add(tvCollimator);
+                                        
+                                    }
+                                    else
+                                    {
+                                        result = result = "ТПВ" + bufRx[1] / 2;
+                                        TPV_Collimator tpvCollimator = new TPV_Collimator(result, serialPort1.PortName, bufRx[1]);
+                                        Console.WriteLine(tpvCollimator);
+                                        collimators.Add(tpvCollimator);
+                                    }
 
-                                
-                                list.Add(result);
+
+                                    list.Add(result);
+                                }
+                               
+
                                 //Console.WriteLine("END RX: " + result);                               
                                 //Collimator col = new Collimator(list[list.Count - 1], serialPort1.PortName, (byte) (bufRx[1] / 2));                                
                             }
@@ -135,7 +158,7 @@ namespace PK_PPU
          
             }
             count_bytes = 0;
-            
+            Console.WriteLine("RX: " + builder.ToString());
             //this.Invoke(new EventHandler(ShowData));
         }
 
@@ -189,15 +212,18 @@ namespace PK_PPU
 
         private void buttonInit_Click(object sender, EventArgs e)
         {
+            isInit = true;
             comboBoxCollimators.Items.Clear();
             collimators.Clear();
 
             string[] array;
+            progressBar1.Value = 0;
+            progressBar1.Maximum = 7;
             for (byte i = 0; i < 8; i++)
             {
                 string temp = initCollimators(i);
+                progressBar1.Increment(1);
             }
-
             array = new string[collimators.Count];
             for (int i = 0; i < array.Length; i++)
             {
@@ -205,10 +231,11 @@ namespace PK_PPU
                 array[i] = collimators[i].getName();
                 
             }
-
+            isInit = false;
             comboBoxCollimators.Enabled = true;
-            comboBoxCollimators.Items.AddRange(array);
-            
+            if (array.Length == 1) comboBoxCollimators.Items.Add(array[0]);
+            else if (array.Length > 1) comboBoxCollimators.Items.AddRange(array);
+            else MessageBox.Show("Коллиматоры не обнаружены!");
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -355,9 +382,7 @@ namespace PK_PPU
 
         public abstract Grid getGrid1();
 
-
         public abstract Grid getGrid2();
-
      
         public abstract void printInfo();
         
