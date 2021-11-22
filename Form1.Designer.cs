@@ -78,7 +78,8 @@ namespace PK_PPU
             // 
             this.buttonStart.Enabled = false;
             this.buttonStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonStart.Location = new System.Drawing.Point(12, 349);
+            this.buttonStart.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonStart.Location = new System.Drawing.Point(12, 393);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(425, 45);
             this.buttonStart.TabIndex = 0;
@@ -99,6 +100,7 @@ namespace PK_PPU
             // label
             // 
             this.label.AutoSize = true;
+            this.label.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label.Location = new System.Drawing.Point(307, 16);
             this.label.Name = "label";
             this.label.Size = new System.Drawing.Size(69, 13);
@@ -121,6 +123,7 @@ namespace PK_PPU
             // labelCom
             // 
             this.labelCom.AutoSize = true;
+            this.labelCom.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelCom.Location = new System.Drawing.Point(182, 16);
             this.labelCom.Name = "labelCom";
             this.labelCom.Size = new System.Drawing.Size(104, 13);
@@ -129,8 +132,10 @@ namespace PK_PPU
             // 
             // progressBar1
             // 
+            this.progressBar1.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.progressBar1.Location = new System.Drawing.Point(185, 38);
             this.progressBar1.Name = "progressBar1";
+            this.progressBar1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.progressBar1.Size = new System.Drawing.Size(100, 21);
             this.progressBar1.TabIndex = 5;
             // 
@@ -147,14 +152,15 @@ namespace PK_PPU
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.groupBox7);
+            this.groupBox2.Controls.Add(this.groupBox6);
             this.groupBox2.Controls.Add(this.groupBox5);
+            this.groupBox2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox2.Location = new System.Drawing.Point(12, 88);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(202, 255);
+            this.groupBox2.Size = new System.Drawing.Size(425, 137);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Скорость";
+            this.groupBox2.Text = "Сетка 1";
             // 
             // groupBox7
             // 
@@ -162,28 +168,32 @@ namespace PK_PPU
             this.groupBox7.Controls.Add(this.labelSpeed2);
             this.groupBox7.Controls.Add(this.buttonPlusSpeed2);
             this.groupBox7.Controls.Add(this.buttonMinusSpeed2);
-            this.groupBox7.Location = new System.Drawing.Point(14, 131);
+            this.groupBox7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.groupBox7.Location = new System.Drawing.Point(14, 19);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(171, 106);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Сетка 2";
+            this.groupBox7.Text = "Скорость";
             // 
             // checkBoxMotor2
             // 
             this.checkBoxMotor2.AutoSize = true;
+            this.checkBoxMotor2.BackColor = System.Drawing.SystemColors.Control;
             this.checkBoxMotor2.Enabled = false;
+            this.checkBoxMotor2.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.checkBoxMotor2.Location = new System.Drawing.Point(15, 77);
             this.checkBoxMotor2.Name = "checkBoxMotor2";
             this.checkBoxMotor2.Size = new System.Drawing.Size(106, 17);
             this.checkBoxMotor2.TabIndex = 4;
             this.checkBoxMotor2.Text = "Пуск двигателя";
-            this.checkBoxMotor2.UseVisualStyleBackColor = true;
+            this.checkBoxMotor2.UseVisualStyleBackColor = false;
             this.checkBoxMotor2.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelSpeed2
             // 
             this.labelSpeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeed2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelSpeed2.Location = new System.Drawing.Point(119, 19);
             this.labelSpeed2.Name = "labelSpeed2";
             this.labelSpeed2.Size = new System.Drawing.Size(46, 41);
@@ -195,6 +205,7 @@ namespace PK_PPU
             // 
             this.buttonPlusSpeed2.Enabled = false;
             this.buttonPlusSpeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonPlusSpeed2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonPlusSpeed2.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusSpeed2.Name = "buttonPlusSpeed2";
             this.buttonPlusSpeed2.Size = new System.Drawing.Size(46, 41);
@@ -207,6 +218,7 @@ namespace PK_PPU
             // 
             this.buttonMinusSpeed2.Enabled = false;
             this.buttonMinusSpeed2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonMinusSpeed2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonMinusSpeed2.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusSpeed2.Name = "buttonMinusSpeed2";
             this.buttonMinusSpeed2.Size = new System.Drawing.Size(46, 41);
@@ -221,28 +233,33 @@ namespace PK_PPU
             this.groupBox5.Controls.Add(this.labelSpeed1);
             this.groupBox5.Controls.Add(this.buttonPlusSpeed1);
             this.groupBox5.Controls.Add(this.buttonMinusSpeed1);
+            this.groupBox5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox5.Location = new System.Drawing.Point(14, 19);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(171, 106);
             this.groupBox5.TabIndex = 6;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Сетка 1";
+            this.groupBox5.Text = "Скорость";
             // 
             // checkBoxMotor1
             // 
             this.checkBoxMotor1.AutoSize = true;
+            this.checkBoxMotor1.BackColor = System.Drawing.SystemColors.Control;
             this.checkBoxMotor1.Enabled = false;
+            this.checkBoxMotor1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.checkBoxMotor1.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.checkBoxMotor1.Location = new System.Drawing.Point(15, 77);
             this.checkBoxMotor1.Name = "checkBoxMotor1";
             this.checkBoxMotor1.Size = new System.Drawing.Size(106, 17);
             this.checkBoxMotor1.TabIndex = 4;
             this.checkBoxMotor1.Text = "Пуск двигателя";
-            this.checkBoxMotor1.UseVisualStyleBackColor = true;
+            this.checkBoxMotor1.UseVisualStyleBackColor = false;
             this.checkBoxMotor1.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelSpeed1
             // 
             this.labelSpeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSpeed1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelSpeed1.Location = new System.Drawing.Point(119, 20);
             this.labelSpeed1.Name = "labelSpeed1";
             this.labelSpeed1.Size = new System.Drawing.Size(46, 41);
@@ -254,6 +271,7 @@ namespace PK_PPU
             // 
             this.buttonPlusSpeed1.Enabled = false;
             this.buttonPlusSpeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonPlusSpeed1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonPlusSpeed1.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusSpeed1.Name = "buttonPlusSpeed1";
             this.buttonPlusSpeed1.Size = new System.Drawing.Size(46, 41);
@@ -266,6 +284,7 @@ namespace PK_PPU
             // 
             this.buttonMinusSpeed1.Enabled = false;
             this.buttonMinusSpeed1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonMinusSpeed1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonMinusSpeed1.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusSpeed1.Name = "buttonMinusSpeed1";
             this.buttonMinusSpeed1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -278,15 +297,15 @@ namespace PK_PPU
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.groupBox4);
-            this.groupBox3.Controls.Add(this.groupBox6);
+            this.groupBox3.Controls.Add(this.groupBox7);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox3.Location = new System.Drawing.Point(235, 88);
+            this.groupBox3.Location = new System.Drawing.Point(12, 238);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(202, 255);
+            this.groupBox3.Size = new System.Drawing.Size(425, 135);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Яркость";
+            this.groupBox3.Text = "Сетка 2";
             // 
             // groupBox4
             // 
@@ -294,28 +313,32 @@ namespace PK_PPU
             this.groupBox4.Controls.Add(this.labelBr2);
             this.groupBox4.Controls.Add(this.buttonPlusBright2);
             this.groupBox4.Controls.Add(this.buttonMinusBright2);
-            this.groupBox4.Location = new System.Drawing.Point(14, 131);
+            this.groupBox4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.groupBox4.Location = new System.Drawing.Point(237, 19);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(171, 106);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Сетка 2";
+            this.groupBox4.Text = "Яркость";
             // 
             // checkBoxHeat2
             // 
             this.checkBoxHeat2.AutoSize = true;
+            this.checkBoxHeat2.BackColor = System.Drawing.SystemColors.Control;
             this.checkBoxHeat2.Enabled = false;
+            this.checkBoxHeat2.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.checkBoxHeat2.Location = new System.Drawing.Point(15, 77);
             this.checkBoxHeat2.Name = "checkBoxHeat2";
             this.checkBoxHeat2.Size = new System.Drawing.Size(130, 17);
             this.checkBoxHeat2.TabIndex = 4;
             this.checkBoxHeat2.Text = "Включить подсветку";
-            this.checkBoxHeat2.UseVisualStyleBackColor = true;
+            this.checkBoxHeat2.UseVisualStyleBackColor = false;
             this.checkBoxHeat2.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelBr2
             // 
             this.labelBr2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBr2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelBr2.Location = new System.Drawing.Point(119, 19);
             this.labelBr2.Name = "labelBr2";
             this.labelBr2.Size = new System.Drawing.Size(46, 41);
@@ -327,6 +350,7 @@ namespace PK_PPU
             // 
             this.buttonPlusBright2.Enabled = false;
             this.buttonPlusBright2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonPlusBright2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonPlusBright2.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusBright2.Name = "buttonPlusBright2";
             this.buttonPlusBright2.Size = new System.Drawing.Size(46, 41);
@@ -339,6 +363,7 @@ namespace PK_PPU
             // 
             this.buttonMinusBright2.Enabled = false;
             this.buttonMinusBright2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonMinusBright2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonMinusBright2.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusBright2.Name = "buttonMinusBright2";
             this.buttonMinusBright2.Size = new System.Drawing.Size(46, 41);
@@ -353,28 +378,32 @@ namespace PK_PPU
             this.groupBox6.Controls.Add(this.labelBr1);
             this.groupBox6.Controls.Add(this.buttonPlusBright1);
             this.groupBox6.Controls.Add(this.buttonMinusBright1);
-            this.groupBox6.Location = new System.Drawing.Point(14, 19);
+            this.groupBox6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.groupBox6.Location = new System.Drawing.Point(237, 19);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(171, 106);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Сетка 1";
+            this.groupBox6.Text = "Яркость";
             // 
             // checkBoxHeat1
             // 
             this.checkBoxHeat1.AutoSize = true;
+            this.checkBoxHeat1.BackColor = System.Drawing.SystemColors.Control;
             this.checkBoxHeat1.Enabled = false;
+            this.checkBoxHeat1.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.checkBoxHeat1.Location = new System.Drawing.Point(15, 77);
             this.checkBoxHeat1.Name = "checkBoxHeat1";
             this.checkBoxHeat1.Size = new System.Drawing.Size(130, 17);
             this.checkBoxHeat1.TabIndex = 4;
             this.checkBoxHeat1.Text = "Включить подсветку";
-            this.checkBoxHeat1.UseVisualStyleBackColor = true;
+            this.checkBoxHeat1.UseVisualStyleBackColor = false;
             this.checkBoxHeat1.CheckedChanged += new System.EventHandler(this.checkBoxEvents);
             // 
             // labelBr1
             // 
             this.labelBr1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBr1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.labelBr1.Location = new System.Drawing.Point(119, 19);
             this.labelBr1.Name = "labelBr1";
             this.labelBr1.Size = new System.Drawing.Size(46, 41);
@@ -386,6 +415,7 @@ namespace PK_PPU
             // 
             this.buttonPlusBright1.Enabled = false;
             this.buttonPlusBright1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonPlusBright1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonPlusBright1.Location = new System.Drawing.Point(67, 19);
             this.buttonPlusBright1.Name = "buttonPlusBright1";
             this.buttonPlusBright1.Size = new System.Drawing.Size(46, 41);
@@ -398,6 +428,7 @@ namespace PK_PPU
             // 
             this.buttonMinusBright1.Enabled = false;
             this.buttonMinusBright1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonMinusBright1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.buttonMinusBright1.Location = new System.Drawing.Point(15, 19);
             this.buttonMinusBright1.Name = "buttonMinusBright1";
             this.buttonMinusBright1.Size = new System.Drawing.Size(46, 41);
@@ -410,11 +441,16 @@ namespace PK_PPU
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(451, 406);
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.ClientSize = new System.Drawing.Size(450, 450);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.buttonStart);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "7872.11.00.400";
             this.Load += new System.EventHandler(this.Form1_Load);

@@ -24,7 +24,7 @@ namespace PK_PPU
         string[] ports;
         Collimator selectedCollimator;
         bool isInit = false;
-
+        bool isFoundOpt = false;
         public Form1()
         {
             InitializeComponent();
@@ -32,7 +32,7 @@ namespace PK_PPU
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            //checkBoxMotor1.Checked = true;
             ports = SerialPort.GetPortNames();
             for (int i = 0; i < ports.Length; i++)
                 Console.WriteLine(ports[i]);
@@ -63,6 +63,8 @@ namespace PK_PPU
                     {
                         bufTx[0] = STARTBYTE;
                         bufTx[1] = x;
+                        if (isFoundOpt == true) bufRx[12] = 0;
+                        else bufRx[12] = 1;
                         bufTx[13] = calcSumXOR(bufTx, 13);
                         serialPort1.Write(bufTx, 0, 14);
 
@@ -76,7 +78,8 @@ namespace PK_PPU
                             serialPort1.Close();
                             return "collimator " + x + " " + ports[i];
                         }
-                       // else Console.WriteLine("COM is invalid: " + ports[i]);
+                    // else Console.WriteLine("COM is invalid: " + ports[i]);
+                    Console.WriteLine("TX: " + BitConverter.ToString(bufTx));
                         serialPort1.Close();
 
                     }
@@ -112,9 +115,14 @@ namespace PK_PPU
                                 if(isInit)
                                 {
                                     string result = "";
+                                    int tmp = bufRx[3];
+                                    
                                     if (bufRx[1] % 2 == 0)
                                     {
-                                        result = "ТВ" + bufRx[1] / 2;
+                                        if (((tmp>>2) & 0x03) == 0x03) isFoundOpt = true;
+                                        else isFoundOpt = false;
+                                        Console.WriteLine("IS FOUND OPTOCOUPLER: " + isFoundOpt);
+                                        result = "ТВ" + (int)(bufRx[1]>>4);
                                         TV_Collimator tvCollimator = new TV_Collimator(result, serialPort1.PortName, bufRx[1]);
                                         Console.WriteLine(tvCollimator);
                                         collimators.Add(tvCollimator);
@@ -122,7 +130,10 @@ namespace PK_PPU
                                     }
                                     else
                                     {
-                                        result = result = "ТПВ" + bufRx[1] / 2;
+                                        if (((tmp >> 2) & 0x01) == 0x01) isFoundOpt = true;
+                                        else isFoundOpt = false;
+                                        Console.WriteLine("IS FOUND OPTOCOUPLER: " + isFoundOpt);
+                                        result = result = "ТПВ" + (int)(bufRx[1] >> 4);
                                         TPV_Collimator tpvCollimator = new TPV_Collimator(result, serialPort1.PortName, bufRx[1]);
                                         Console.WriteLine(tpvCollimator);
                                         collimators.Add(tpvCollimator);
@@ -162,13 +173,16 @@ namespace PK_PPU
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             string selectedState = comboBoxCollimators.SelectedItem.ToString();
+            string[] letters = "A B C D E F G H I J K L M N".Split(' ');
             for(int i = 0; i < collimators.Count; i++)
             {
                 if(selectedState.Equals(collimators[i].getName()))
                 {
                     selectedCollimator = collimators[i];
-                    labelCom.Text = "Port  " + selectedCollimator.getPort();
+                    //int nPort = Int32.Parse(selectedCollimator.getPort().Substring(3, selectedCollimator.getPort().Length - 3));
+                    labelCom.Text = "Port  " + selectedCollimator.getPort(); //+ " (" + letters[nPort] + ")";
                     Console.WriteLine(selectedCollimator);
 
                     labelSpeed1.Text = Convert.ToString("" + selectedCollimator.getGrid1().getSpeed());
@@ -176,16 +190,21 @@ namespace PK_PPU
                     labelSpeed2.Text = Convert.ToString("" + 0);
                     labelBr2.Text = Convert.ToString("" + 0);
 
+                    //checkBoxMotor1.Checked = selectedCollimator.getGrid1().getStart();
+                   //checkBoxHeat1.Checked = selectedCollimator.getGrid1().getHeatOn();
+
                     if (selectedCollimator.getGrid2() != null)
                     {
                         labelSpeed2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getSpeed());
                         labelBr2.Text = Convert.ToString("" + selectedCollimator.getGrid2().getBright());
+                        //checkBoxMotor2.Checked = selectedCollimator.getGrid2().getStart();
+                       // checkBoxHeat2.Checked = selectedCollimator.getGrid2().getHeatOn();
                     }
 
-                    checkBoxMotor1.Checked = false;
-                    checkBoxMotor2.Checked = false;
-                    checkBoxHeat1.Checked = false;
-                    checkBoxHeat2.Checked = false;
+                    //checkBoxMotor1.Checked = false;
+                   // checkBoxMotor2.Checked = false;
+                    //checkBoxHeat1.Checked = false;
+                    //checkBoxHeat2.Checked = false;
                     break;
                 }
             }
@@ -210,9 +229,11 @@ namespace PK_PPU
             string[] array;
             progressBar1.Value = 0;
             progressBar1.Maximum = 7;
-            for (byte i = 0; i < 8; i++)
+            for (byte i = 16; i < 65; i+=16)
             {
                 string temp = initCollimators(i);
+                progressBar1.Increment(1);
+                temp = initCollimators((byte)(i+1));
                 progressBar1.Increment(1);
             }
             array = new string[collimators.Count];
@@ -317,6 +338,11 @@ namespace PK_PPU
 
         public void initButtons ()
         {
+            checkBoxMotor1.Checked = false;
+            checkBoxHeat1.Checked = false;
+            checkBoxMotor2.Checked = false;
+            checkBoxHeat2.Checked = false;
+
             buttonMinusSpeed1.Enabled = true;
             buttonPlusSpeed1.Enabled = true;
             buttonMinusBright1.Enabled = true;
@@ -333,6 +359,9 @@ namespace PK_PPU
             checkBoxMotor1.Enabled = true;
             checkBoxHeat2.Enabled = false;
             checkBoxMotor2.Enabled = false;
+            checkBoxMotor1.Checked = selectedCollimator.getGrid1().getStart();
+            checkBoxHeat1.Checked = selectedCollimator.getGrid1().getHeatOn();
+            
 
             if (selectedCollimator.GetType().ToString().Equals("PK_PPU.TV_Collimator"))
             {
@@ -343,6 +372,8 @@ namespace PK_PPU
 
                 checkBoxHeat2.Enabled = true;
                 checkBoxMotor2.Enabled = true;
+                checkBoxMotor2.Checked = selectedCollimator.getGrid2().getStart();
+                checkBoxHeat2.Checked = selectedCollimator.getGrid2().getHeatOn();
             }
         }
 
